@@ -143,17 +143,17 @@ a:hover {
   margin: 0;
   color: var(--heavy-metal);
   font-family: var(--body-font);
-  font-size: clamp(2.35rem, 5vw, 2.75rem);
+  font-size: clamp(2rem, 4vw, 40px);
   font-weight: 700;
-  line-height: 1.08;
-  letter-spacing: -0.035em;
+  line-height: 1.1;
+  letter-spacing: -0.025em;
 }
 
 .post-title {
   margin: 0;
   color: var(--heavy-metal);
   font-family: var(--body-font);
-  font-size: clamp(2rem, 4vw, 2.25rem);
+  font-size: clamp(1.75rem, 3vw, 32px);
   font-weight: 700;
   line-height: 1.1;
   letter-spacing: -0.025em;

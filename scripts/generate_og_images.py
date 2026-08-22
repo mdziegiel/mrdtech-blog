@@ -78,9 +78,9 @@ def wrap_title(title: str) -> list[str]:
 
 def svg_for_post(title: str, tags: list[str]) -> str:
     title_lines = wrap_title(title)
-    title_font_size = 74 if len(title_lines) <= 3 else 64
-    title_line_height = int(title_font_size * 1.12)
-    title_y = 176
+    title_font_size = 52 if len(title_lines) <= 3 else 46
+    title_line_height = int(title_font_size * 1.18)
+    title_y = 172
     line_svg = []
     for i, line in enumerate(title_lines):
         line_svg.append(
