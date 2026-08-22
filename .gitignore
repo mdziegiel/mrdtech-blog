@@ -6,3 +6,6 @@ _site/
 vendor/
 preview_site/
 screenshots/
+
+__pycache__/
+*.py[cod]
