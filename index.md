@@ -30,7 +30,7 @@ image:
         <span aria-hidden="true">·</span>
         <span>{{ read_time }} min read</span>
       </div>
-      <h2><a href="{{ post.url | relative_url }}">{{ post.title }}</a></h2>
+      <h2>{{ post.title }}</h2>
       <p>{{ post.excerpt | strip_html | normalize_whitespace | truncate: 190 }}</p>
       {% if post.tags %}
         <ul class="tag-list" aria-label="Tags for {{ post.title }}">
