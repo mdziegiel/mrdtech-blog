@@ -68,7 +68,7 @@ def slug_from_post(path: Path, data: dict[str, Any]) -> str:
 
 def wrap_title(title: str) -> list[str]:
     # Character-based wrapping is deterministic and works well for the 1200px card.
-    lines = textwrap.wrap(title, width=34, break_long_words=False, break_on_hyphens=False)
+    lines = textwrap.wrap(title, width=42, break_long_words=False, break_on_hyphens=False)
     if len(lines) <= 4:
         return lines
     kept = lines[:4]
@@ -78,9 +78,9 @@ def wrap_title(title: str) -> list[str]:
 
 def svg_for_post(title: str, tags: list[str]) -> str:
     title_lines = wrap_title(title)
-    title_font_size = 52 if len(title_lines) <= 3 else 46
-    title_line_height = int(title_font_size * 1.18)
-    title_y = 172
+    title_font_size = 36 if len(title_lines) <= 3 else 32
+    title_line_height = int(title_font_size * 1.22)
+    title_y = 188
     line_svg = []
     for i, line in enumerate(title_lines):
         line_svg.append(
