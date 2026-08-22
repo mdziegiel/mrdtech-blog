@@ -26,3 +26,13 @@ GitHub Pages references:
 - https://docs.github.com/en/pages/setting-up-a-github-pages-site-with-jekyll/creating-a-github-pages-site-with-jekyll
 - https://jekyllrb.com/docs/posts/
 - https://jekyllrb.com/docs/front-matter/
+
+## OG image generation
+
+Post thumbnails/social cards are generated from post front matter:
+
+```bash
+python3 scripts/generate_og_images.py
+```
+
+The script reads `_posts/*.md` and writes matching `assets/og/*.svg` and `assets/og/*.png` files. Use the PNG path in post front matter as `og_image`.

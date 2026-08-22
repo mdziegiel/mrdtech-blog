@@ -28,3 +28,4 @@ exclude:
   - Gemfile.lock
   - preview_build.py
   - preview_site/
+  - scripts/

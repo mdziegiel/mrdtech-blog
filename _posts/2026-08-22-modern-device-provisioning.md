@@ -3,6 +3,8 @@ layout: post
 title: "Modern Device Provisioning: Autopilot, Entra ID, and the End of Imaging"
 date: 2026-08-22
 excerpt: "A practical sysadmin walkthrough of replacing traditional Windows imaging with Autopilot, Entra ID, Intune compliance, and app delivery."
+og_image: /assets/og/modern-device-provisioning.png
+og_slug: modern-device-provisioning
 tags:
   - Autopilot
   - Entra ID

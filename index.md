@@ -14,6 +14,11 @@ title: All Posts
     {% assign words = post.content | number_of_words %}
     {% assign read_time = words | divided_by: 180 | at_least: 1 %}
     <article class="post-card">
+      {% if post.og_image %}
+        <a class="post-thumb" href="{{ post.url | relative_url }}" aria-label="Read {{ post.title }}">
+          <img src="{{ post.og_image | relative_url }}" alt="{{ post.title }} thumbnail" loading="lazy">
+        </a>
+      {% endif %}
       <div class="post-card-meta">
         <time datetime="{{ post.date | date_to_xmlschema }}">{{ post.date | date: "%B %-d, %Y" }}</time>
         <span aria-hidden="true">·</span>
