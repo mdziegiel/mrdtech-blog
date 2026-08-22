@@ -25,6 +25,16 @@ layout: default
     {% endif %}
   </header>
 
+  {% if page.og_image %}
+    <figure class="post-featured-image">
+      <img src="{{ page.og_image | relative_url }}" alt="{{ page.title }} social preview image">
+    </figure>
+  {% endif %}
+
+  {% if page.excerpt %}
+    <p class="post-excerpt">{{ page.excerpt | strip_html | normalize_whitespace }}</p>
+  {% endif %}
+
   <div class="post-content e-content" itemprop="articleBody">
     {{ content }}
   </div>
