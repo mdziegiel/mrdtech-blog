@@ -9,7 +9,7 @@ image:
   alt: MRDTech Blog branded social preview image
 ---
 
-<section class="intro-card" aria-labelledby="blog-title">
+<section class="blog-intro" aria-labelledby="blog-title">
   <p class="eyebrow">MRDTech Blog</p>
   <h1 id="blog-title">Infrastructure notes without the ceremony.</h1>
   <p>Practical writing on endpoint management, automation, security, and hybrid cloud infrastructure.</p>

@@ -25,9 +25,7 @@ body {
   min-height: 100vh;
   font-family: var(--body-font);
   color: var(--heavy-metal);
-  background:
-    radial-gradient(circle at top left, rgba(250, 93, 0, 0.08), transparent 34rem),
-    var(--bridal-heath);
+  background: var(--bridal-heath);
 }
 
 a {
@@ -124,14 +122,9 @@ a:hover {
   padding-block: clamp(2.25rem, 5vw, 4.5rem);
 }
 
-.intro-card {
-  max-width: 860px;
-  margin-bottom: clamp(2rem, 5vw, 3.25rem);
-  padding: clamp(1.4rem, 4vw, 2.2rem);
-  border: 1px solid var(--border);
-  border-radius: 24px;
-  background: linear-gradient(135deg, rgba(255, 248, 241, 0.96), rgba(255, 241, 226, 0.78));
-  box-shadow: var(--shadow);
+.blog-intro {
+  max-width: 820px;
+  margin-bottom: clamp(2.4rem, 6vw, 4rem);
 }
 
 .eyebrow {
@@ -144,11 +137,11 @@ a:hover {
   text-transform: uppercase;
 }
 
-.intro-card h1 {
+.blog-intro h1 {
   margin: 0;
   color: var(--heavy-metal);
   font-family: var(--body-font);
-  font-size: clamp(2rem, 4vw, 44px);
+  font-size: clamp(2rem, 4vw, 42px);
   font-weight: 700;
   line-height: 1.1;
   letter-spacing: -0.025em;
@@ -164,7 +157,7 @@ a:hover {
   letter-spacing: -0.025em;
 }
 
-.intro-card p:not(.eyebrow) {
+.blog-intro p:not(.eyebrow) {
   max-width: 74ch;
   margin: 1rem 0 0;
   color: var(--muted);
