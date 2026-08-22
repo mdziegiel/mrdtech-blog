@@ -9,6 +9,9 @@ author:
   github: mdziegiel
   portfolio: https://portfolio.mrdtech.me
 
+twitter:
+  card: summary_large_image
+
 # GitHub Pages supports Jekyll natively. Minima is kept as the base theme,
 # while local layouts/includes override the presentation for the Harvest palette.
 theme: minima

@@ -2,6 +2,11 @@
 layout: default
 title: All Posts
 og_image: /assets/og/mrdtech-blog-home.png
+image:
+  path: /assets/og/mrdtech-blog-home.png
+  width: 1200
+  height: 630
+  alt: MRDTech Blog branded social preview image
 ---
 
 <section class="hero" aria-labelledby="blog-title">

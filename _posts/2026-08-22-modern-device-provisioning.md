@@ -5,6 +5,11 @@ date: 2026-08-22
 excerpt: "A practical sysadmin walkthrough of replacing traditional Windows imaging with Autopilot, Entra ID, Intune compliance, and app delivery."
 og_image: /assets/og/modern-device-provisioning.png
 og_slug: modern-device-provisioning
+image:
+  path: /assets/og/modern-device-provisioning.png
+  width: 1200
+  height: 630
+  alt: Modern Device Provisioning branded social preview image
 tags:
   - Autopilot
   - Entra ID
