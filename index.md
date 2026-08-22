@@ -1,6 +1,7 @@
 ---
 layout: default
 title: All Posts
+og_image: /assets/og/mrdtech-blog-home.png
 ---
 
 <section class="hero" aria-labelledby="blog-title">
