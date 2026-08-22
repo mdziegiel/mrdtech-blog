@@ -3,10 +3,9 @@
     <style>
       @import url('https://fonts.googleapis.com/css2?family=Lora:wght@400;600;700&amp;display=swap');
       .label { font: 700 30px system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; letter-spacing: 0.16em; fill: #FA5D00; }
-      .title { font: 700 58px "Lora", Georgia, serif; fill: #FFF8F1; letter-spacing: -0.025em; }
+      .title { font: 700 36px "Lora", Georgia, serif; fill: #FFF8F1; letter-spacing: -0.025em; }
+      .subline { font: 600 28px system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; fill: rgba(255,248,241,0.68); }
       .url { font: 600 28px system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; fill: rgba(255,248,241,0.72); }
-      .chip rect { fill: rgba(250,93,0,0.14); stroke: rgba(250,93,0,0.72); stroke-width: 2; }
-      .chip text { font: 700 21px system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; fill: #FFF8F1; }
     </style>
     <radialGradient id="glow" cx="17%" cy="7%" r="80%">
       <stop offset="0%" stop-color="#FA5D00" stop-opacity="0.34" />
@@ -19,8 +18,7 @@
   <circle cx="1064" cy="104" r="156" fill="none" stroke="#FA5D00" stroke-opacity="0.35" stroke-width="2" />
   <circle cx="1104" cy="496" r="96" fill="#FA5D00" fill-opacity="0.10" />
   <text x="84" y="92" class="label">MRDTECH BLOG</text>
-  <text x="84" y="202" class="title">Infrastructure notes without</text><text x="84" y="268" class="title">the ceremony.</text>
-  <text x="84" y="416" class="url">Infrastructure. Endpoints. Automation. Security.</text>
-  <g class="chip"><rect x="84" y="500" width="289" height="42" rx="21" /><text x="106" y="527">Endpoint Management</text></g><g class="chip"><rect x="387" y="500" width="172" height="42" rx="21" /><text x="409" y="527">Automation</text></g><g class="chip"><rect x="573" y="500" width="146" height="42" rx="21" /><text x="595" y="527">Security</text></g>
+  <text x="84" y="188" class="title">Infrastructure notes without the ceremony.</text>
+  <text x="84" y="322" class="subline">Endpoint management · Hybrid cloud · Automation · Security</text>
   <text x="84" y="588" class="url">blog.mrdtech.me</text>
 </svg>

@@ -1,9 +1,9 @@
 ---
 layout: default
 title: All Posts
-og_image: /assets/og/mrdtech-blog-home.png
+og_image: /assets/og/site-default.png
 image:
-  path: /assets/og/mrdtech-blog-home.png
+  path: /assets/og/site-default.png
   width: 1200
   height: 630
   alt: MRDTech Blog branded social preview image
