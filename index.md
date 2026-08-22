@@ -1,0 +1,34 @@
+---
+layout: default
+title: All Posts
+---
+
+<section class="hero" aria-labelledby="blog-title">
+  <p class="eyebrow">MRDTech Blog</p>
+  <h1 id="blog-title">Infrastructure notes without the ceremony.</h1>
+  <p class="hero-copy">Practical writing on endpoint management, automation, security, and the operational mess hiding behind most “simple” deployments.</p>
+</section>
+
+<section class="post-list" aria-label="Blog posts">
+  {% for post in site.posts %}
+    {% assign words = post.content | number_of_words %}
+    {% assign read_time = words | divided_by: 180 | at_least: 1 %}
+    <article class="post-card">
+      <div class="post-card-meta">
+        <time datetime="{{ post.date | date_to_xmlschema }}">{{ post.date | date: "%B %-d, %Y" }}</time>
+        <span aria-hidden="true">·</span>
+        <span>{{ read_time }} min read</span>
+      </div>
+      <h2><a href="{{ post.url | relative_url }}">{{ post.title }}</a></h2>
+      <p>{{ post.excerpt | strip_html | normalize_whitespace | truncate: 190 }}</p>
+      {% if post.tags %}
+        <ul class="tag-list" aria-label="Tags for {{ post.title }}">
+          {% for tag in post.tags %}
+            <li>{{ tag }}</li>
+          {% endfor %}
+        </ul>
+      {% endif %}
+      <a class="read-link" href="{{ post.url | relative_url }}">Read the post</a>
+    </article>
+  {% endfor %}
+</section>

@@ -1,0 +1,30 @@
+title: MRDTech Blog
+description: Practical infrastructure, endpoint management, automation, and security notes from Michael Dziegiel.
+url: "https://blog.mrdtech.me"
+baseurl: ""
+lang: en
+
+author:
+  name: Michael Dziegiel
+  github: mdziegiel
+  portfolio: https://portfolio.mrdtech.me
+
+# GitHub Pages supports Jekyll natively. Minima is kept as the base theme,
+# while local layouts/includes override the presentation for the Harvest palette.
+theme: minima
+
+permalink: /:year/:month/:day/:title/
+excerpt_separator: "\n\n"
+markdown: kramdown
+highlighter: rouge
+
+plugins:
+  - jekyll-feed
+  - jekyll-seo-tag
+
+exclude:
+  - README.md
+  - Gemfile
+  - Gemfile.lock
+  - preview_build.py
+  - preview_site/
