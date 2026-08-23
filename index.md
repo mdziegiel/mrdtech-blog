@@ -20,8 +20,13 @@ image:
   <ol class="article-list">
   {% for post in site.posts %}
     <li>
-      <a href="{{ post.url | relative_url }}">{{ post.title }}</a>
-      <time datetime="{{ post.date | date_to_xmlschema }}">{{ post.date | date: "%B %-d, %Y" }}</time>
+      <a class="article-row" href="{{ post.url | relative_url }}">
+        <span class="article-row-inner">
+          <span class="article-title">{{ post.title }}</span>
+          <span class="article-excerpt">{{ post.excerpt | strip_html | normalize_whitespace }}</span>
+        </span>
+        <time class="article-meta" datetime="{{ post.date | date_to_xmlschema }}">{{ post.date | date: "%b %-d, %Y" }}</time>
+      </a>
     </li>
   {% endfor %}
   </ol>
