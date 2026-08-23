@@ -1,12 +1,12 @@
 ---
 layout: post
-title: "Building a Self-Hosted AI Agent with Real Infrastructure Access"
+title: "Building an Autonomous AI Agent for My Homelab (Meet Gilfoyle)"
 date: 2026-08-23
 excerpt: "How I built a self-hosted AI agent with scoped infrastructure visibility, a read-only tool gateway, Obsidian-backed retrieval, delegated coding runtimes, and hard lessons from a real bind-mount incident."
-og_image: /assets/og/building-self-hosted-ai-agent-real-infrastructure-access.png
-og_slug: building-self-hosted-ai-agent-real-infrastructure-access
+og_image: /assets/og/building-autonomous-ai-agent-for-my-homelab-meet-gilfoyle.png
+og_slug: building-autonomous-ai-agent-for-my-homelab-meet-gilfoyle
 image:
-  path: /assets/og/building-self-hosted-ai-agent-real-infrastructure-access.png
+  path: /assets/og/building-autonomous-ai-agent-for-my-homelab-meet-gilfoyle.png
   width: 1200
   height: 630
   alt: Self-hosted AI agent infrastructure access branded social preview image
