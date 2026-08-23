@@ -1,15 +1,15 @@
 ---
 layout: post
-title: "Building Gilfoyle: A Self-Hosted AI Agent with Real Infrastructure Access"
+title: "Building a Self-Hosted AI Agent with Real Infrastructure Access"
 date: 2026-08-23
-excerpt: "How I built a self-hosted Hermes/Gilfoyle agent with scoped infrastructure visibility, a read-only MCP gateway, Obsidian-backed retrieval, delegated coding runtimes, and hard lessons from a real bind-mount incident."
-og_image: /assets/og/building-gilfoyle-self-hosted-ai-agent.png
-og_slug: building-gilfoyle-self-hosted-ai-agent
+excerpt: "How I built a self-hosted AI agent with scoped infrastructure visibility, a read-only tool gateway, Obsidian-backed retrieval, delegated coding runtimes, and hard lessons from a real bind-mount incident."
+og_image: /assets/og/building-self-hosted-ai-agent-real-infrastructure-access.png
+og_slug: building-self-hosted-ai-agent-real-infrastructure-access
 image:
-  path: /assets/og/building-gilfoyle-self-hosted-ai-agent.png
+  path: /assets/og/building-self-hosted-ai-agent-real-infrastructure-access.png
   width: 1200
   height: 630
-  alt: Building Gilfoyle branded social preview image
+  alt: Self-hosted AI agent infrastructure access branded social preview image
 tags:
   - AI Agents
   - Infrastructure
@@ -21,9 +21,11 @@ A chat window is fine if all you want is text.
 
 That was not what I wanted.
 
-I wanted an agent that could look at the real environment, read the actual documentation, check live state, run controlled diagnostics, update repos, maintain notes, and tell me what it found without pretending a guess was evidence. Basically: less "AI assistant" and more junior infrastructure operator with enough supervision to avoid becoming an incident report.
+I wanted an agent that could look at the real environment, read the actual documentation, check live state, run controlled diagnostics, update repos, maintain notes, and tell me what it found without pretending a guess was evidence. By agent, I mean software that can use tools and follow a workflow, not just a chatbot that replies with advice. Basically: less "AI assistant" and more junior infrastructure operator with enough supervision to avoid becoming an incident report.
 
-That became Gilfoyle: my self-hosted Hermes agent wired into a real homelab, with real infrastructure visibility and a deliberately boring security model.
+I call the agent Gilfoyle, after the *Silicon Valley* character: deadpan, technically excellent, allergic to bullshit. The name stuck because it fits the personality I gave it better than any actual AI product name would.
+
+That became the system this post is about: a self-hosted Hermes agent wired into a real homelab, with real infrastructure visibility and a deliberately boring security model.
 
 The public-safe build notes live in [`mdziegiel/mrdtech-hermes-stack`](https://github.com/mdziegiel/mrdtech-hermes-stack). The most useful docs are the numbered ones:
 
@@ -43,17 +45,17 @@ Because chat windows are usually disconnected from the things I actually need to
 
 If I ask, "why is this service down," I do not want a confident paragraph about common causes. I want the agent to check the service, read the logs, compare the current config to the documented config, inspect the last deployment, and tell me exactly where the failure is.
 
-That is the difference between an LLM and an operator workflow.
+That is the difference between an LLM, meaning the language model generating the reasoning and text, and an operator workflow, meaning the surrounding tools and guardrails that let it inspect real systems.
 
-The Hermes/Gilfoyle setup gives the model tools, memory, scheduled jobs, skills, shell access, GitHub workflows, and retrieval over internal documentation. The local Obsidian note `Wiki/hermes.md` describes Hermes as the operational agent layer for MRDTech: it runs terminal and file operations, manages cron jobs, queries infrastructure APIs, updates GitHub repositories, maintains WikiDocs and Obsidian notes, and executes scripted monitoring jobs.
+The Hermes/Gilfoyle setup gives the model tools, memory, scheduled jobs, skills, shell access, GitHub workflows, and retrieval over internal documentation. Retrieval means it can search written notes and docs before answering instead of relying on whatever context is still in the chat. The local Obsidian note `Wiki/hermes.md` describes Hermes as the operational agent layer for MRDTech: it runs terminal and file operations, manages cron jobs, queries infrastructure APIs, updates GitHub repositories, maintains WikiDocs and Obsidian notes, and executes scripted monitoring jobs.
 
 That is the actual motivation. Not novelty. Not "AI because AI." I wanted a controllable operational layer that could do the boring work and cite what it touched.
 
 ## 2. Architecture overview: the MCP gateway
 
-The most important part of the architecture is the read-only MCP gateway. See [`03-mcp-gateway.md`](https://github.com/mdziegiel/mrdtech-hermes-stack/blob/main/docs/03-mcp-gateway.md).
+The most important part of the architecture is the read-only MCP gateway. MCP is the Model Context Protocol: a standard way to expose tools and data sources to an AI agent. In this setup, the gateway is the controlled broker between Gilfoyle and infrastructure systems, not a free-for-all admin socket. See [`03-mcp-gateway.md`](https://github.com/mdziegiel/mrdtech-hermes-stack/blob/main/docs/03-mcp-gateway.md).
 
-Gilfoyle reaches a Docker MCP Gateway through a local SSH tunnel. The gateway itself binds only to loopback on the infrastructure side. There is no general LAN-exposed "please automate my production network" endpoint sitting there like a piñata full of credentials.
+Gilfoyle reaches a Docker MCP gateway through a local SSH tunnel. The gateway itself binds only to loopback on the infrastructure side, so it listens only on the local machine instead of the whole network. There is no general LAN-exposed "please automate my production network" endpoint sitting there like a piñata full of credentials.
 
 The gateway currently fronts six read-only backends:
 
@@ -64,10 +66,10 @@ The gateway currently fronts six read-only backends:
 | Filesystem | Read-only approved filesystem paths | 9 |
 | Proxmox | VE read/list/get/status visibility | 153 |
 | PBS | Datastore, snapshot, verification, GC, and task-log visibility | 7 |
-| Vault RAG | Vault search and document retrieval | 2 |
+| Vault search | Vault search and document retrieval | 2 |
 | **Total** |  | **202** |
 
-That gives Gilfoyle visibility across Docker, source control, hypervisor state, backup state, and documentation retrieval without giving it a generic write surface.
+That gives Gilfoyle visibility across Docker, source control, hypervisor state, backup state, and documentation retrieval without giving it a generic write surface. In plain terms: it can inspect a lot, but it cannot casually mutate everything it can see.
 
 The public docs intentionally use placeholders like `[HERMES_HOST]` and `[INFRA_HOST]`. That is not coy. It is hygiene. Internal IPs and hostnames do not need to be in a public repo so someone can understand the architecture.
 
@@ -120,7 +122,7 @@ The Obsidian vault is the working knowledge space. [`02-obsidian-vault.md`](http
 
 The standing rule in the Gilfoyle configuration is simple: before answering questions about past incidents, fixes, configurations, or homelab history, search the vault and ground the answer in results.
 
-The RAG side is documented in [`04-rag-pipeline.md`](https://github.com/mdziegiel/mrdtech-hermes-stack/blob/main/docs/04-rag-pipeline.md). The pipeline is:
+The RAG side is documented in [`04-rag-pipeline.md`](https://github.com/mdziegiel/mrdtech-hermes-stack/blob/main/docs/04-rag-pipeline.md). RAG means retrieval-augmented generation: search the docs first, then use the model to answer with that retrieved context. The pipeline is:
 
 1. collect source Markdown from the vault,
 2. stage and redact it,
@@ -136,13 +138,15 @@ This is what changes the agent from "guess what I probably did last month" to "s
 
 Gilfoyle is not just one model trying to do everything.
 
+Dual-model delegation means Hermes can route different work to different AI runtimes instead of pretending one model is the correct hammer for every nail. Some tasks are better handled by a coding-focused runtime. Some are better handled by the main agent staying in control and using tools directly.
+
 [`06-dual-model-delegation.md`](https://github.com/mdziegiel/mrdtech-hermes-stack/blob/main/docs/06-dual-model-delegation.md) documents the current state carefully:
 
 - Claude Code is installed and authenticated in the environment.
 - A standalone Codex CLI binary was not provable during that documentation pass.
 - Hermes itself contains Codex runtime support code.
 - Historical config snapshots showed `openai-codex` as a model provider.
-- Current delegation config keeps explicit controls such as `subagent_auto_approve: false`, limited spawn depth, and bounded concurrent children.
+- Current delegation config keeps explicit controls such as `subagent_auto_approve: false`, limited spawn depth, and bounded concurrent children. In normal English: helper agents do not get automatic approval to run wild.
 
 So the honest version is this: Claude Code and Codex are both part of the larger workflow story, but not in the same way.
 
@@ -213,7 +217,7 @@ Satan respects preflight checks. Barely.
 
 ## 7. The skills catalog
 
-The skills catalog is the part of the system that makes Gilfoyle less dependent on whatever context happens to be in the current chat.
+The skills catalog is the part of the system that makes Gilfoyle less dependent on whatever context happens to be in the current chat. A skill is a reusable procedure the agent can load for a specific class of work, like GitHub operations, infrastructure verification, or public-safe documentation.
 
 The catalog lives at [`docs/skills/README.md`](https://github.com/mdziegiel/mrdtech-hermes-stack/blob/main/docs/skills/README.md). It tracks installed Hermes skills and plugin-provided skills with evidence notes, source provenance, install-date confidence, and gaps.
 
