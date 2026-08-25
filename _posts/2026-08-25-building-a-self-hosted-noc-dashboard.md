@@ -23,8 +23,6 @@ Every one of those services has its own admin panel. Proxmox has one. Portainer 
 
 So I built a NOC dashboard. One page, one glance, everything that matters.
 
-![Self-hosted NOC dashboard, dark theme](/assets/images/noc-dashboard.png)
-
 ## 1. Why not just use existing dashboard tools
 
 There's no shortage of homelab dashboard projects — link aggregators, bookmark walls, status pages. I looked at a few before deciding to build my own, for two reasons that mattered more than saving myself the work.
