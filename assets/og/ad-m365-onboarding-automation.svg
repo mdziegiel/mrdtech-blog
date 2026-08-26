@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" role="img" aria-label="AD &amp; M365 Onboarding Automation: A WPF PowerShell GUI for New User Provisioning">
+  <defs>
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Lora:wght@400;600;700&amp;display=swap');
+      .label { font: 700 30px system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; letter-spacing: 0.16em; fill: #FA5D00; }
+      .title { font: 700 36px "Lora", Georgia, serif; fill: #FFF8F1; letter-spacing: -0.025em; }
+      .url { font: 600 28px system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; fill: rgba(255,248,241,0.72); }
+      .chip rect { fill: rgba(250,93,0,0.14); stroke: rgba(250,93,0,0.72); stroke-width: 2; }
+      .chip text { font: 700 21px system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; fill: #FFF8F1; }
+    </style>
+    <radialGradient id="glow" cx="17%" cy="7%" r="80%">
+      <stop offset="0%" stop-color="#FA5D00" stop-opacity="0.34" />
+      <stop offset="42%" stop-color="#FA5D00" stop-opacity="0.08" />
+      <stop offset="100%" stop-color="#1D1E1C" stop-opacity="0" />
+    </radialGradient>
+  </defs>
+  <rect width="1200" height="630" fill="#1D1E1C" />
+  <rect width="1200" height="630" fill="url(#glow)" />
+  <circle cx="1064" cy="104" r="156" fill="none" stroke="#FA5D00" stroke-opacity="0.35" stroke-width="2" />
+  <circle cx="1104" cy="496" r="96" fill="#FA5D00" fill-opacity="0.10" />
+  <text x="84" y="92" class="label">MRDTECH BLOG</text>
+  <text x="84" y="188" class="title">AD &amp; M365 Onboarding Automation: A WPF</text><text x="84" y="231" class="title">PowerShell GUI for New User Provisioning</text>
+  <g class="chip"><rect x="84" y="510" width="172" height="42" rx="21" /><text x="106" y="537">PowerShell</text></g><g class="chip"><rect x="270" y="510" width="210" height="42" rx="21" /><text x="292" y="537">Active Directory</text></g><g class="chip"><rect x="494" y="510" width="210" height="42" rx="21" /><text x="516" y="537">Microsoft 365</text></g><g class="chip"><rect x="718" y="510" width="172" height="42" rx="21" /><text x="740" y="537">Automation</text></g><g class="chip"><rect x="904" y="510" width="133" height="42" rx="21" /><text x="926" y="537">Homelab</text></g>
+  <text x="84" y="588" class="url">blog.mrdtech.me</text>
+</svg>
