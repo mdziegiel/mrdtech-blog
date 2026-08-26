@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Self-Hosting RustDesk: Running Your Own Relay Server"
+title: "RustDesk: A Self-Hosted TeamViewer Alternative"
 date: 2026-08-26
 excerpt: "Why I moved off the public RustDesk rendezvous/relay infrastructure and stood up my own hbbs/hbbr stack, plus the architecture, key handling, and verification steps to prove it actually works."
 og_image: /assets/og/self-hosted-rustdesk-relay-server.png
@@ -9,7 +9,7 @@ image:
   path: /assets/og/self-hosted-rustdesk-relay-server.png
   width: 1200
   height: 630
-  alt: Self-hosted RustDesk relay server branded social preview image
+  alt: RustDesk self-hosted TeamViewer alternative branded social preview image
 tags:
   - RustDesk
   - Remote Access
