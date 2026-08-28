@@ -33,7 +33,14 @@ RustDesk splits its backend into two services, not one:
 
 Both ship as a single Rust binary, rustdesk-server, that runs in two modes. In practice you run two containers or two processes from the same image.
 
-RustDesk client (controller) -> ID lookup/rendezvous -> hbbs -> connection negotiated -> hbbr (relay, if P2P fails) -> RustDesk client (controlled machine)
+```text
+RustDesk client (controller)
+  -> ID lookup/rendezvous
+  -> hbbs
+  -> connection negotiated
+  -> hbbr (relay, if P2P fails)
+  -> RustDesk client (controlled machine)
+```
 
 The important part: hbbs never sees your screen or session data. It brokers the handshake. hbbr only sees traffic when direct P2P fails, and it's carrying an already end-to-end encrypted stream — it can't decrypt it, it's just moving bytes.
 
@@ -54,6 +61,7 @@ Don't cargo-cult the IP. Do get the ports right — this is the part people get 
 ## 4. Docker Compose deployment
 The official server image runs both services from docker-compose:
 
+```yaml
 services:
   hbbs:
     image: rustdesk/rustdesk-server:latest
@@ -71,28 +79,77 @@ services:
       - ./data:/root
     command: hbbr
     restart: unless-stopped
+```
 
 Two things I'd flag if you're building this fresh: network_mode: host is the path of least resistance here since RustDesk's port set doesn't map cleanly to Docker's default bridge NAT for every client scenario, and host networking removes a whole category of "why can't clients see my server" debugging. Shared volume — both containers need to read the same keypair, so they mount the same ./data directory; hbbs generates the keypair on first run if one doesn't exist.
 
-Run: docker compose up -d then docker compose logs -f hbbs
+Run:
+
+```bash
+docker compose up -d
+docker compose logs -f hbbs
+```
 
 On first boot, hbbs logs the generated public key. That key is what every client needs to trust this server instead of the public one.
 
 ## 5. Firewall rules
 
-21115/tcp (NAT type test), 21116/tcp and 21116/udp (ID registration/heartbeat), 21117/tcp (relay). That's it for the base stack. I did not open 21114 — that's the Pro web console port, and I'm not running Pro.
+```text
+21115/tcp (NAT type test)
+21116/tcp and 21116/udp (ID registration/heartbeat)
+21117/tcp (relay)
+```
+
+That's it for the base stack. I did not open 21114 — that's the Pro web console port, and I'm not running Pro.
 
 ## 6. Key handling
 
-This is the part that actually matters for trust, and it's easy to treat as an afterthought. hbbs generates an ed25519 keypair on first launch and stores it in the mounted data directory: ./data/id_ed25519 and ./data/id_ed25519.pub. The public key is what you paste into every client's server settings. The private key never leaves the server, and it's the thing that actually matters for backup — lose it, and every client needs to be re-pointed with a new public key. Treat that private key the way you'd treat any other host key material: back it up somewhere outside the VM itself, don't regenerate it casually since every existing client configuration breaks the moment you do, and if you ever suspect the VM is compromised, rotating this key is not optional.
+This is the part that actually matters for trust, and it's easy to treat as an afterthought. hbbs generates an ed25519 keypair on first launch and stores it in the mounted data directory:
+
+```text
+./data/id_ed25519
+./data/id_ed25519.pub
+```
+
+The public key is what you paste into every client's server settings. The private key never leaves the server, and it's the thing that actually matters for backup — lose it, and every client needs to be re-pointed with a new public key. Treat that private key the way you'd treat any other host key material: back it up somewhere outside the VM itself, don't regenerate it casually since every existing client configuration breaks the moment you do, and if you ever suspect the VM is compromised, rotating this key is not optional.
 
 ## 7. Pointing clients at your server
 
-On each RustDesk client — controller and controlled machine both — under Settings then Network, set: ID Server 203.0.113.10:21116, Relay Server 203.0.113.10:21117, Key equal to the public key from id_ed25519.pub. Every client that needs to see each other has to point at the same server with the same key. Mixed configurations — one client on the public relay, one pointed at yours — simply won't find each other. That's obvious in hindsight and still the first thing to check when a connection silently fails.
+On each RustDesk client — controller and controlled machine both — under Settings then Network, set:
+
+```text
+ID Server:    203.0.113.10:21116
+Relay Server: 203.0.113.10:21117
+Key:          <the public key from id_ed25519.pub>
+```
+
+Every client that needs to see each other has to point at the same server with the same key. Mixed configurations — one client on the public relay, one pointed at yours — simply won't find each other. That's obvious in hindsight and still the first thing to check when a connection silently fails.
 
 ## 8. Verification
 
-Don't take "it deployed" as proof it works. Confirm each layer: containers are actually up via docker compose ps; hbbs is listening on the expected ports via ss -tulpn | grep -E '21115|21116|21117'; a client can register with the server by checking hbbs logs while a client starts up, you should see a registration/heartbeat entry tied to that client's ID, not silence; end-to-end session test from a second machine, connect to the first client's ID through the RustDesk app, with both pointed at your server and key — if it connects, watch docker compose logs -f hbbr during the session, if the connection relayed you'll see traffic there, if it went direct P2P hbbr logs stay quiet and that's also correct since hbbr is only in the path when NAT traversal fails.
+Don't take "it deployed" as proof it works. Confirm each layer.
+
+Containers are actually up:
+
+```bash
+docker compose ps
+```
+
+hbbs is listening on the expected ports:
+
+```bash
+ss -tulpn | grep -E '21115|21116|21117'
+```
+
+A client can register with the server by checking hbbs logs while a client starts up; you should see a registration/heartbeat entry tied to that client's ID, not silence.
+
+End-to-end session test from a second machine, connect to the first client's ID through the RustDesk app, with both pointed at your server and key — if it connects, watch docker compose logs -f hbbr during the session.
+
+```bash
+docker compose logs -f hbbr
+```
+
+If the connection relayed you'll see traffic there, if it went direct P2P hbbr logs stay quiet and that's also correct since hbbr is only in the path when NAT traversal fails.
 
 That last distinction trips people up: a quiet hbbr log doesn't mean the relay is broken. It can mean the connection didn't need it.
 
