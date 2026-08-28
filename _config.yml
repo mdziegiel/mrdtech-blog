@@ -21,6 +21,10 @@ excerpt_separator: "\n\n"
 markdown: kramdown
 highlighter: rouge
 
+kramdown:
+  input: GFM
+  syntax_highlighter: rouge
+
 plugins:
   - jekyll-feed
   - jekyll-seo-tag
