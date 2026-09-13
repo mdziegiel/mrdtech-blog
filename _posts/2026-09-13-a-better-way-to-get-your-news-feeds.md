@@ -3,28 +3,28 @@ layout: post
 title: "A Better Way to Get Your News Feeds: Self-Hosting FreshRSS"
 date: 2026-09-13
 tags: [RSS, FreshRSS, Self-Hosted, Homelab, Proxmox, LXC]
-excerpt: "I got tired of letting algorithms decide what tech news I saw, so I self-hosted an RSS reader and curated my own sources into categories instead of trusting a feed algorithm - here's why, and how I built it."
+excerpt: "I got tired of letting algorithms decide what tech news I saw. So I self-hosted an RSS reader and sorted my own sources into categories - here's why, and how I built it."
 ---
 
 I don't want a news feed. I want a reading list.
 
-Every "For You" tab I've used - Twitter, LinkedIn, even Google's own news app - is optimizing for time-on-app, not for keeping me informed. That's not a conspiracy theory, it's just the incentive structure. So a few months back I stopped fighting it and went back to the thing that solved this problem 20 years ago and never actually stopped working: RSS. I just wanted my version of it to be self-hosted and curated by me, not an algorithm.
+Twitter, LinkedIn, Google's own news app - every "For You" tab I've used is optimizing for time-on-app, not for keeping me informed. That's just how the incentives work. So a few months back I went back to the thing that solved this problem 20 years ago and never actually stopped working: RSS. My version of it needed to be self-hosted, and curated by me instead of an algorithm.
 
-## Why FreshRSS instead of Feedly/Inoreader
+## Why FreshRSS over Feedly or Inoreader
 
-I didn't want my reading list living on someone else's server, being used to build an ad profile, or disappearing behind a paywall the day the company pivots to a subscription model. FreshRSS is open-source, self-hosted, and speaks a handful of standard protocols (its own API plus a Google Reader-compatible API) that basically every RSS client on the planet already knows how to talk to. That compatibility mattered more than any single feature - it meant I wasn't locking myself into one reader's ecosystem to get data out later.
+I didn't want my reading list living on someone else's server, feeding an ad profile, or disappearing behind a paywall the day the company changes its business model. FreshRSS is open-source and self-hosted, and it speaks a couple of standard protocols - its own API and a Google Reader-compatible one - that most RSS clients already know how to talk to. That compatibility mattered to me more than any single feature in the app itself; it meant I wasn't locking my subscriptions into one company's ecosystem.
 
 ## How I actually deployed it
 
-FreshRSS runs as its own unprivileged Debian LXC container on Proxmox, not a Docker stack - I used the community Proxmox VE helper script (the same `bash -c "$(wget -qLO - .../ct/freshrss.sh)"` pattern I use for a handful of other single-purpose services) to spin up the container, which handles the nginx + PHP-FPM + FreshRSS install in one pass and drops the app in at `/opt/freshrss`. One LXC, one job - I don't want a misbehaving app taking down anything else sharing a host, and a dedicated container is cheap on a hypervisor that already has the headroom.
+FreshRSS runs in its own unprivileged Debian LXC on Proxmox, not a Docker stack. I used the community Proxmox VE helper script - the same `bash -c "$(wget -qLO - .../ct/freshrss.sh)"` pattern I use for a handful of other single-purpose services - which handles the nginx, PHP-FPM, and FreshRSS install in one shot and drops the app at `/opt/freshrss`. One container, one job. I'd rather a misbehaving app take down nothing but itself, and a dedicated LXC costs almost nothing on a hypervisor that already has the headroom.
 
-It's not reachable on a Cloudflare Tunnel like most of my other public-facing apps - it's a CNAME record pointed at my apex domain, which lands on Nginx Proxy Manager (also self-hosted) that reverse-proxies the request the rest of the way to the LXC's internal IP. Same outcome (HTTPS in front of an internal service), different plumbing than the tunnel-based apps.
+It doesn't sit behind a Cloudflare Tunnel like most of my public-facing apps do. A CNAME points at my apex domain, which lands on Nginx Proxy Manager, and NPM reverse-proxies the rest of the way to the LXC's internal address. Different plumbing, same result: HTTPS in front of an internal service.
 
-Updating it is a `git pull` inside the container rather than a `docker compose pull` - which bit me once, because the base LXC template doesn't ship with `git` installed. First update attempt after standing it up just returned `git: command not found`. `apt install -y git`, then the normal fetch/reset/checkout/pull dance, fixed that permanently.
+Updating it means `git pull` inside the container instead of `docker compose pull`, which caught me off guard the first time - the base LXC template doesn't ship with `git`. My first update attempt just returned `git: command not found`. Installed git, ran the normal fetch/reset/checkout/pull sequence, and it's been fine ever since.
 
-## Curating feeds into categories, not one big pile
+## Curating feeds into categories instead of one big pile
 
-The entire point of self-hosting this was to stop treating "news" as one undifferentiated stream. Inside FreshRSS, subscriptions get sorted into categories:
+Everything gets sorted into a handful of categories:
 
 | Category | What's in it |
 |---|---|
@@ -33,23 +33,20 @@ The entire point of self-hosting this was to stop treating "news" as one undiffe
 | Reddit | A handful of specific subreddits, added via their `.rss` suffix |
 | News Sites | General/non-tech sources |
 
-On any given morning, "IT News Sites" is the category doing the actual work - a real pull from it looks like a Cisco Catalyst SD-WAN zero-day writeup next to a BleepingComputer piece on Google's new privacy controls, next to a Register story on a school district's network being left wide open. That's the whole value proposition in one glance: three different outlets, one unread count, zero ranking algorithm deciding which of those three I should care about first.
+IT News Sites is the one doing the real work. A typical pull might put a Cisco Catalyst SD-WAN zero-day writeup next to a BleepingComputer piece on Google's privacy controls and a Register story about a school district leaving its network wide open. Three outlets, one unread count, nothing deciding for me which of the three matters more.
 
-Each category is its own unread count and its own read/unread state, which is the entire point - I can clear "News Sites" without touching my "IT News Sites" backlog, and a slow week for security writeups doesn't get buried under general news volume.
+The category split also means my unread counts stay honest. I can clear News Sites without touching the IT backlog, and a quiet week for security writeups doesn't get buried under general news volume.
 
-FreshRSS also ships a **Google Reader-compatible API** alongside its own native API - the same interface protocol that most of the RSS client ecosystem was originally built against, back when Google Reader was still the de facto standard everyone integrated with. That compatibility is part of why I picked it: any client that speaks that protocol (and most do) can authenticate and pull my subscriptions without me writing custom integration code for every device I read on.
+FreshRSS also exposes that Google Reader-compatible API I mentioned - the same protocol most of the RSS client world was originally built against, back when Google Reader was the standard everyone integrated with. Any client that speaks it can authenticate and pull my subscriptions with no custom integration work on my end, on whatever device I happen to be reading from.
 
-## The gotcha that cost me real time: a 403 that isn't what it looks like
+## A 403 that wasn't what it looked like
 
-FreshRSS started throwing a `403 Login is invalid` error on the web login out of nowhere - the kind of message that reads like a bad password, but wasn't. Since it sits behind a reverse proxy, the actual failure point is almost never FreshRSS's auth logic itself, it's the handshake between FreshRSS and the proxy in front of it:
+At some point FreshRSS started throwing a `403 Login is invalid` on the web login, out of nowhere. Reads like a bad password. Wasn't one. Sitting behind a reverse proxy, the failure almost never traces back to FreshRSS's actual auth logic - it's the handshake between FreshRSS and whatever's in front of it.
 
-- FreshRSS's own `trusted_proxies` setting controls whether it trusts the `X-Forwarded-For`/`X-Forwarded-Proto` headers coming from the proxy. If it doesn't, every login attempt looks like it's coming from one single IP (the proxy's), which can trip FreshRSS's own brute-force/rate-limit logic into rejecting valid logins as "invalid."
-- Separately, FreshRSS checks the `Referer`/`base_url` on login POSTs as a CSRF guard. If the proxy strips or rewrites that header, or `base_url` in `config.php` doesn't exactly match the externally-facing hostname/scheme, that check fails too - and it produces the exact same generic 403.
+Two things can cause the exact same error here. FreshRSS's `trusted_proxies` setting decides whether it trusts the `X-Forwarded-For`/`X-Forwarded-Proto` headers coming from the proxy; if it doesn't, every login attempt looks like it's coming from the same single IP, and that can trip the built-in rate limiter into rejecting good logins. Separately, FreshRSS checks the `Referer` and `base_url` on login as a CSRF guard - if the proxy strips that header, or `base_url` in `config.php` doesn't exactly match the public hostname and scheme, that check fails too, with the identical 403.
 
-Two different plausible causes, same error message, and no way to tell which one you're looking at from the error alone. The actual diagnostic path was pulling `trusted_proxies` and `base_url` straight out of `config.php` and cross-referencing them against the proxy's actual header behavior, rather than guessing and toggling settings one at a time. That's the real lesson here more than any specific fix: a reverse-proxied app with its own app-level trust settings can fail in a way that looks like a credentials problem but is really a "does the app agree with the proxy about what the real client looks like" problem, and the config file - not the login form - is where you go looking.
+No way to tell which one you're looking at from the error message alone. The actual diagnostic path was pulling `trusted_proxies` and `base_url` straight out of `config.php` and comparing them against what the proxy was actually sending, rather than flipping settings and hoping. Worth remembering for any reverse-proxied app with its own trust settings: when it looks like a credentials problem, check whether the app and the proxy agree on what "the real client" even looks like. The config file is where that answer lives, not the login form.
 
 ## Where it stands now
 
-FreshRSS runs quietly in the background, sorted into categories I actually curated instead of an algorithm's guess at my interests. No feed ranking, no "recommended for you," no engagement bait - just headlines from sources I picked, in the order they were published.
-
-That's the whole pitch for self-hosted RSS in 2026: it's not a nostalgia project, it's the last format where the reading list is actually yours.
+FreshRSS runs quietly in the background, sorted into categories I actually chose instead of ones an algorithm guessed at. No ranking, no "recommended for you," no engagement bait - just headlines from sources I picked, in the order they were published. Twenty years on, it's still the format where the reading list is actually mine.

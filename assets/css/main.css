@@ -314,7 +314,7 @@ a:hover {
 .post-excerpt {
   max-width: 66ch;
   margin: 0 0 clamp(1.5rem, 4vw, 2.4rem);
-  color: var(--muted);
+  color: var(--heavy-metal);
   font-family: var(--body-font);
   font-size: clamp(1.04rem, 2vw, 1.18rem);
   line-height: 1.68;
