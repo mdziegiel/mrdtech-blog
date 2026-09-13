@@ -219,7 +219,7 @@ a:hover {
 .article-excerpt {
   display: block;
   margin-top: 0.375rem;
-  color: var(--muted);
+  color: var(--heavy-metal);
   font-family: var(--ui-font);
   font-size: 0.875rem;
   line-height: 1.5;
