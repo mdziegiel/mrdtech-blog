@@ -3,14 +3,14 @@ layout: post
 title: "Why I Ditched Google Photos for Immich"
 date: 2026-09-13
 tags: [Immich, Self-Hosted, Homelab, Docker, Privacy, Photos]
-excerpt: "Google Photos is a great product with a bad tradeoff attached to it. Here's why I moved my entire photo library to a self-hosted Immich instance, how I built it out, and how I pulled years of history over from Google without losing metadata or creating a duplicate mess."
+excerpt: "I ran the numbers on what 'free' unlimited photo backup was actually costing me, and decided to build my own instead of paying it. Here's the Immich stack I stood up and how I pulled years of history over from Google without losing metadata or ending up with two copies of everything."
 ---
 
-Google Photos is genuinely good software. Search works, backup is automatic, and the interface doesn't get in your way. None of that changes the actual arrangement: every photo of my kids, my house, and my life was living on someone else's infrastructure, getting scanned for ad targeting and product training data as a condition of "free" unlimited backup. I didn't want to keep making that trade just because the alternative required setting up my own server. So I set up my own server.
+I finally sat down and did the math on what Google Photos was actually charging me. Not in dollars - in every photo of my kids, my house, and every year of my life since 2015, sitting on someone else's servers as training data and ad-targeting fodder in exchange for backup I could've built myself. Once I framed it that way the "free" tier stopped feeling free. So I moved the whole library to Immich, a self-hosted photo backup app that's built specifically to replace Google Photos instead of just being a NAS with a web UI bolted on.
 
-## What I moved to
+## What Immich actually gives you
 
-[Immich](https://immich.app/) - a self-hosted photo and video backup solution that's explicitly built to be a drop-in Google Photos replacement, not just a dumb file store. It gets you:
+[Immich](https://immich.app/) gets you:
 
 - Automatic background backup from the mobile app, same as Google Photos
 - ML-powered face recognition and object/scene detection, run locally against my own hardware instead of a cloud API
