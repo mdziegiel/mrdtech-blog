@@ -20,6 +20,6 @@
   <circle cx="1104" cy="496" r="96" fill="#FA5D00" fill-opacity="0.10" />
   <text x="84" y="92" class="label">MRDTECH BLOG</text>
   <text x="84" y="188" class="title">Job Watch: The App I Built to Automate My</text><text x="84" y="231" class="title">Own Job Search</text>
-
+  <g class="chip"><rect x="84" y="510" width="133" height="42" rx="21" /><text x="106" y="537">homelab</text></g><g class="chip"><rect x="231" y="510" width="172" height="42" rx="21" /><text x="253" y="537">automation</text></g><g class="chip"><rect x="417" y="510" width="185" height="42" rx="21" /><text x="439" y="537">self-hosted</text></g><g class="chip"><rect x="616" y="510" width="120" height="42" rx="21" /><text x="638" y="537">docker</text></g><g class="chip"><rect x="750" y="510" width="68" height="42" rx="21" /><text x="772" y="537">ai</text></g>
   <text x="84" y="588" class="url">blog.mrdtech.me</text>
 </svg>

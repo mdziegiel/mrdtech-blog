@@ -2,8 +2,20 @@
 layout: post
 title: "Job Watch: The App I Built to Automate My Own Job Search"
 date: 2026-08-28
-tags: [homelab, automation, self-hosted, docker, ai]
 excerpt: "Job hunting is a data problem disguised as an emotional one. I built a self-hosted aggregator that scored every listing against my resume and told me the ones worth my time - here's how it worked."
+og_image: /assets/og/job-watch-app.png
+og_slug: job-watch-app
+image:
+  path: /assets/og/job-watch-app.png
+  width: 1200
+  height: 630
+  alt: Job Watch - the app I built to automate my own job search branded social preview image
+tags:
+  - homelab
+  - automation
+  - self-hosted
+  - docker
+  - ai
 ---
 
 Job hunting has a volume problem. Between LinkedIn, Indeed, company career pages, and a half-dozen niche boards, the actual signal - the two or three roles a week worth a real application - gets buried under a firehose of postings that don't match your experience, your comp floor, or even your field. I was manually triaging dozens of listings a day and losing time I needed for actually applying. So I built something to do the triage for me.

@@ -2,8 +2,20 @@
 layout: post
 title: "Why I Ditched My Traditional VPN for Tailscale"
 date: 2026-08-28
-tags: [networking, security, homelab, tailscale, wireguard]
 excerpt: "Traditional site-to-site and remote-access VPNs solve connectivity, but they cost you in attack surface and admin overhead. Here's why I moved my homelab to Tailscale's WireGuard mesh, and how I set it up."
+og_image: /assets/og/tailscale-better-than-vpn.png
+og_slug: tailscale-better-than-vpn
+image:
+  path: /assets/og/tailscale-better-than-vpn.png
+  width: 1200
+  height: 630
+  alt: Why I ditched my traditional VPN for Tailscale branded social preview image
+tags:
+  - networking
+  - security
+  - homelab
+  - tailscale
+  - wireguard
 ---
 
 For years my remote access setup looked like every other homelab and small-business network: a firewall rule forwarding a UDP port to an OpenVPN or WireGuard server, a cert or PSK to manage, and a hub-and-spoke tunnel that dumped remote clients onto my LAN subnet. It worked, but every time I opened that inbound port I was accepting a tradeoff I didn't love — an internet-facing listener that's one misconfigured firewall rule or unpatched VPN daemon away from being someone else's way in.

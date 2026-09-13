@@ -2,8 +2,21 @@
 layout: post
 title: "A Better Way to Get Your News Feeds: Self-Hosting FreshRSS"
 date: 2026-09-13
-tags: [RSS, FreshRSS, Self-Hosted, Homelab, Proxmox, LXC]
 excerpt: "I got tired of letting algorithms decide what articles and videos I saw, so I built my own reading and watching list instead - here's why, and how I built it."
+og_image: /assets/og/a-better-way-to-get-your-news-feeds.png
+og_slug: a-better-way-to-get-your-news-feeds
+image:
+  path: /assets/og/a-better-way-to-get-your-news-feeds.png
+  width: 1200
+  height: 630
+  alt: A Better Way to Get Your News Feeds - Self-Hosting FreshRSS branded social preview image
+tags:
+  - RSS
+  - FreshRSS
+  - Self-Hosted
+  - Homelab
+  - Proxmox
+  - LXC
 ---
 
 I don't want a news feed. I want a reading list - and a watch list I actually control.
