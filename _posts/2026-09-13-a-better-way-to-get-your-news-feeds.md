@@ -62,13 +62,15 @@ IT News Sites:
 | Lifehacker |
 | Threatpost |
 
-YouTube is mostly homelab, networking, and hardware channels: Jeff Geerling, NetworkChuck, Linus Tech Tips, Lawrence Systems, Crosstalk Solutions, Techdox, NASCompares, DB Tech, Hardware Haven, Christian Lempa, Lon.TV, Mactelecom Networks, Raid Owl, Shannon Morse, Smart Home Solver, and a few more. A handful show a warning icon right now - usually just a fetch hiccup from a channel rename or format change, not something that needs a real fix.
+YouTube covers homelab, networking, and hardware channels.
 
 Reddit is r/homelab and r/linux, added by their .rss suffix - the only two subreddits I actually read regularly. News Sites is general non-tech (Boston.com, NPR, WCVB) that I want in one place but nowhere near the IT backlog.
 
 Unread count across everything is north of 5,800.
 
 ## Reading it on phone and tablet
-FreshRSS speaks that Google Reader-compatible API alongside its own native one, so any client that talks it - Reeder, FeedMe, NetNewsWire, whatever - logs in and syncs straight from the app, no browser needed. freshrss.mrdtech.me reaches the LXC through a plain CNAME to Nginx Proxy Manager instead of a Cloudflare Tunnel, so there's no Access/email-login wall in front of it. Auth happens at FreshRSS's own login, and the same account works from any of those apps on any network, home or not.
+
+FreshRSS speaks that Google Reader-compatible API alongside its own native one, so any client that talks it - Reeder, FeedMe, NetNewsWire, whatever - logs in and syncs straight from the app, no browser needed. freshrss.mrdtech.me reaches the LXC through a plain CNAME to Nginx Proxy Manager instead of a Cloudflare Tunnel, so there's no Access/email-login wall in front of it.
+Auth happens at FreshRSS's own login, and the same account works from any of those apps on any network, home or not.
 
 Same unread counts, same read state, whether I'm at my desk or on my phone on the train.
