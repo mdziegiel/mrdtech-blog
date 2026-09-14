@@ -76,14 +76,6 @@ None of this stopped me from ending up with an unread count north of 5,800 acros
 
 FreshRSS also exposes that Google Reader-compatible API - the same protocol most of the RSS client world was originally built against, back when Google Reader was the standard everyone integrated with. Any client that speaks it can authenticate and pull my subscriptions with no custom integration work on my end, on whatever device I happen to be reading or watching from.
 
-## A 403 that wasn't what it looked like
-
-At some point FreshRSS started throwing a `403 Login is invalid` on the web login, out of nowhere. Reads like a bad password. Wasn't one. Sitting behind a reverse proxy, the failure almost never traces back to FreshRSS's actual auth logic - it's the handshake between FreshRSS and whatever's in front of it.
-
-Two things can cause the exact same error here. FreshRSS's `trusted_proxies` setting decides whether it trusts the `X-Forwarded-For`/`X-Forwarded-Proto` headers coming from the proxy; if it doesn't, every login attempt looks like it's coming from the same single IP, and that can trip the built-in rate limiter into rejecting good logins. Separately, FreshRSS checks the `Referer` and `base_url` on login as a CSRF guard - if the proxy strips that header, or `base_url` in `config.php` doesn't exactly match the public hostname and scheme, that check fails too, with the identical 403.
-
-No way to tell which one you're looking at from the error message alone. The actual diagnostic path was pulling `trusted_proxies` and `base_url` straight out of `config.php` and comparing them against what the proxy was actually sending, rather than flipping settings and hoping. Worth remembering for any reverse-proxied app with its own trust settings: when it looks like a credentials problem, check whether the app and the proxy agree on what "the real client" even looks like. The config file is where that answer lives, not the login form.
-
 ## Where it stands now
 
 FreshRSS runs quietly in the background, sorted into categories I actually chose instead of ones an algorithm guessed at - articles and video channels both. No ranking, no "recommended for you," no autoplay - just the things I actually subscribed to, in the order they were published.
