@@ -59,8 +59,4 @@ The "Right Now" panel shows who's online, based on a heartbeat every 45 seconds 
 
 For notifications, there's an in-app bell with per-user read state, plus Web Push with VAPID keys, a service worker, and multiple devices per user. I skipped email. It would have meant sending from my personal Gmail or setting up a throwaway account just to send. Tasks can also be assigned to several people at once.
 
-## Publishing it
-
-The repo is public. Before the first push I ran gitleaks and grepped for internal IPs, hostnames, and stack IDs. The README screenshots come from a clean demo board, not my real one.
-
 Source: github.com/mdziegiel/mrdtech-collab-hub
